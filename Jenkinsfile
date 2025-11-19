@@ -7,12 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/vikasok05/lab.git', branch: 'main'
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'mvn clean install'
