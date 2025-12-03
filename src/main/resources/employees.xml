@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<employees>
+    <employee id="1">
+        <name>Иван Петров</name>
+        <department>IT</department>
+        <position>Разработчик</position>
+        <salary>2500</salary>
+    </employee>
+
+    <employee id="2">
+        <name>Алексей Смирнов</name>
+        <department>IT</department>
+        <position>Тестировщик</position>
+        <salary>1800</salary>
+    </employee>
+
+    <employee id="3">
+        <name>Анна Кузнецова</name>
+        <department>HR</department>
+        <position>HR-специалист</position>
+        <salary>2100</salary>
+    </employee>
+
+    <employee id="4">
+        <name>Мария Орлова</name>
+        <department>Finance</department>
+        <position>Бухгалтер</position>
+        <salary>2300</salary>
+    </employee>
+
+    <employee id="5">
+        <name>Сергей Иванов</name>
+        <department>Marketing</department>
+        <position>Маркетолог</position>
+        <salary>2000</salary>
+    </employee>
+</employees>
