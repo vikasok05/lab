@@ -1,38 +1,15 @@
 pipeline {
-
     agent any
 
-    options {
-        timestamps()
-        buildDiscarder(logRotator(numToKeepStr: '20'))
-        disableConcurrentBuilds()
-    }
-
-    triggers {
-        pollSCM('H/2 * * * *')
-    }
-
-    environment {
-        MAVEN_OPTS = '-Dmaven.test.failure.ignore=false'
-    }
-
     stages {
-
         stage('Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/vikasok05/lab'
-                    ]]
-                ])
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                bat 'mvn -v'
                 bat 'mvn -B -U clean compile'
             }
         }
@@ -41,47 +18,24 @@ pipeline {
             steps {
                 bat 'mvn -B test'
             }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-
-                    publishHTML(reportDir: 'target/site/jacoco',
-                                reportFiles: 'index.html',
-                                reportName: 'JaCoCo Coverage')
-                }
-            }
         }
 
         stage('Package') {
             steps {
                 bat 'mvn -B package'
             }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-            }
         }
 
         stage('Deploy (local)') {
-            when {
-                branch 'main'
-            }
             steps {
-                bat '''
-                echo Starting application...
-                start java -jar target/*.jar
-                '''
+                echo 'Deploy skipped (local env)'
             }
         }
     }
 
     post {
-        success {
-            echo "CI/CD pipeline successful for branch: ${env.BRANCH_NAME}"
-        }
-        failure {
-            echo "Build failed for ${env.BRANCH_NAME}"
+        always {
+            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
