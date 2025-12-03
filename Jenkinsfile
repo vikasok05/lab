@@ -18,12 +18,6 @@ pipeline {
 
     stages {
 
-        stage('Fix Git Safe Directory') {
-            steps {
-                bat 'git config --global --add safe.directory C:/ProgramData/Jenkins/.jenkins/workspace/lab-ci-cd'
-            }
-        }
-
         stage('Checkout') {
             steps {
                 checkout([
@@ -66,15 +60,6 @@ pipeline {
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
-            }
-        }
-
-        stage('Quality Gates') {
-            when {
-                anyOf { branch 'main'; branch 'develop' }
-            }
-            steps {
-                echo 'Quality checks (Checkstyle, SpotBugs, SonarQube) — placeholder'
             }
         }
 
